@@ -2,6 +2,10 @@
 
 char * format_mode(mode_t mode) {
     char * results = calloc(sizeof(char), 8);
+    if (mode / 01000 == 040) 
+        strcat(results, "d");
+    else
+        strcat(results, "-");
     mode = mode % 01000;
     int p[3];
     p[2] = mode % 010;

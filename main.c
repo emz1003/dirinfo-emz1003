@@ -15,26 +15,28 @@ int main() {
     }
 
     struct stat s;
-    char *dir = calloc(256, sizeof(char));
-    char *files = calloc(256, sizeof(char));
-    char *temp;
+    char *dir = calloc(1028, sizeof(char));
+    char *files = calloc(1028, sizeof(char));
 
     stat(d, &s);
 
     printf("Statistics for directory: %c\nTotal directory size: %lld Bytes\n", *d, s.st_size);
     while (file) {
-        temp = calloc(64, sizeof(char));
+        char *temp = calloc(256, sizeof(char));
         stat(file->d_name, &s);
         if (errno) {
-            printf("%s: %s\n", errno, strerror(errno));
+            printf("%d: %s\n", errno, strerror(errno));
         }
-        sprintf(temp, "\t%-16s %-16s\n", format_mode(s.st_mode), file->d_name);
+
+        char *mode = format_mode(s.st_mode);
+            sprintf(temp, "\t%-16s %-16s %-16s", mode, file->d_name, ctime(&s.st_mtime));
         if(s.st_mode / 01000 == 040)
             strcat(dir, temp);
         else
             strcat(files, temp);
         file = readdir(mydir);
         free(temp);
+        free(mode);
     }
     printf("directories:\n%sfiles:\n%s\n", dir, files);
     free(dir);
