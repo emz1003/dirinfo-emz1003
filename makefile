@@ -3,10 +3,12 @@ ifeq ($(DEBUG), true)
 else
 	CC = gcc
 endif
-all: main.o
-	gcc -o program main.o
-main.o: main.c
-	gcc -c main.c
+all: main.o dirinfo.o
+	gcc -o program main.o dirinfo.o
+main.o: main.c dirinfo.h
+	gcc -c main.c dirinfo.h
+dirinfo.o: dirinfo.c dirinfo.h
+	gcc -c dirinfo.c dirinfo.h
 run:
 	./program
 clean:
