@@ -10,6 +10,6 @@ main.o: main.c dirinfo.h
 dirinfo.o: dirinfo.c dirinfo.h
 	gcc -c dirinfo.c dirinfo.h
 run:
-	./program .
+	./program
 clean:
 	rm program *.o *.h.gch
