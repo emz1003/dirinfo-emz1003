@@ -1,29 +1,27 @@
 #include "dirinfo.h"
 
 int main(int argc, char* argv[]) {
-    char *d = calloc(256, sizeof(char));
-    if (argc < 2) {
-        printf("please enter in a valid directory: ");
+    char * d = calloc(256, sizeof(char));
+    if(argc > 1)
+        d = argv[1];
+    else {
+        printf("enter a valid directory: ");
         fgets(d, 256, stdin);
         d[strlen(d) - 1] = 0;
-
-        if (errno)
-        {
-            printf("%d: %s\n", errno, strerror(errno));
-        }
-    } else
-        d = argv[1];
+    }
 
     DIR * mydir = opendir(d);
     
     if(errno) {
         printf("%d: %s\n", errno, strerror(errno));
+        return -1;
     }
     
     struct dirent *file = readdir(mydir);
     
     if(errno) {
         printf("%d: %s\n", errno, strerror(errno));
+        return -1;
     }
 
     struct stat s;
